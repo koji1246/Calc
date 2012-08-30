@@ -33,7 +33,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:padding="0dp"
-                
+                android:onClick="functionKeyOnClick"
                 android:textSize="24sp" />
 
             <Button
@@ -42,6 +42,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:padding="0dp"
+                android:onClick="functionKeyOnClick"
                 android:textSize="24sp" />
 
             <Button
@@ -49,6 +50,7 @@
                 android:text="AC"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
+                android:onClick="functionKeyOnClick"
                 android:padding="0dp"
                 android:textSize="24sp" />
 
@@ -58,6 +60,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:padding="0dp"
+                android:onClick="functionKeyOnClick"
                 android:textSize="24sp" />
         </TableRow>
 
@@ -100,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:padding="0dp"
+                android:onClick="operatorKeyOnClick"
                 android:textSize="24sp" />
         </TableRow>
 
@@ -142,6 +146,7 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 android:text="*"
+                android:onClick="operatorKeyOnClick"
                 android:textSize="24sp" />
         </TableRow>
 
@@ -184,6 +189,7 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 android:text="-"
+                android:onClick="operatorKeyOnClick"
                 android:textSize="24sp" />
         </TableRow>
 
@@ -199,7 +205,7 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 android:text="0"
-                
+                android:onClick="numKeyOnClick"
                 android:textSize="24sp" />
 
             <Button
@@ -208,13 +214,14 @@
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 android:text="."
+                android:onClick="numKeyOnClick"
                 android:textSize="24sp" />
 
             <Button
                 android:id="@+id/keypadEq"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:onClick="equalKeyOncliic"
+                android:onClick="operatorKeyOnClick"
                 android:padding="0dp"
                 android:text="="
                 android:textSize="24sp" />
@@ -224,7 +231,7 @@
                 android:text="+"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:onClick="addKeyOnClick"
+                android:onClick="operatorKeyOnClick"
                 android:padding="0dp"
                 android:textSize="24sp" />
         </TableRow>
