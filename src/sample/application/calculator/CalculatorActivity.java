@@ -7,12 +7,15 @@ import java.text.DecimalFormat;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 
 
@@ -27,6 +30,7 @@ public class CalculatorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        readPreferences();
     }
 
     @Override
@@ -42,9 +46,10 @@ public class CalculatorActivity extends Activity {
     	Log.d("[tvのインスタンスか確認]","tv.text:"+tv.getText().toString());
     	tv.setText(tv.getText());//ここまで一桁表示
     	tv.setText(tv.getText().toString() + button.getText());//文字をつなげる
+    	((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(50);//バイブ機能
     }  
     
-    public void numKeyOnClick(View v){//リスト３あってる
+    public void numKeyOnClick(View v){//CalculatorActivityのインスタンスメソッドなのでthisを使う
     	String strInKey = (String) ((Button)v).getText();//strInKeyにボタン格納（必要なTextのみ）String型のインスタンのみ
     	
     	if(strInKey.equals(".")){
@@ -83,6 +88,29 @@ public class CalculatorActivity extends Activity {
     	((TextView)findViewById(R.id.displayPanel)).setText(fText);//displayPanelを呼び出しfTextをセットする
     	
     }
+    
+    public void functionKeyOnClick(View v){
+    	switch(v.getId()){
+    	case R.id.keypadAC:
+    		strTemp="";
+    		strResult="0";
+    		operator=0;
+    		break;
+    	case R.id.keypadC:
+    		strTemp="";
+    		break;
+    	case R.id.keypadBS:
+    		if(strTemp.length()==0)return;
+    		else strTemp=strTemp.substring(0,strTemp.length()-1);
+    		break;
+    	case R.id.keypadCopy:
+    		ClipboardManager cm = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+    		//cm.setText((TextView)findViewById(R.id.displayPanel)).getText());なんぞ？
+    	return;
+    		
+    	}
+    	showNumber(strTemp);
+    }
    
     public void operatorKeyOnClick(View v){//リスト６
     	if(this.operator!=0){
@@ -104,6 +132,7 @@ public class CalculatorActivity extends Activity {
     	}else{
     		this.operator  = v.getId();
     	}
+    	((Vibrator)getSystemService(VIBRATOR_SERVICE)).vibrate(50);//バイブ機能
     }
     
     
@@ -126,7 +155,7 @@ public class CalculatorActivity extends Activity {
     		if(!bd2.equals(BigDecimal.ZERO)){
     		result=bd1.divide(bd2,12,3);
     		}else{
-    			Toast toast = Toast.makeText(this, R.string.toast_div_by_zero, 1000);
+    			Toast toast = Toast.makeText(this, R.string.toast_div_by_zero, 1000);//?
     			toast.show();
     		}
     		break;
@@ -137,6 +166,32 @@ public class CalculatorActivity extends Activity {
     	}else{
     		return result.toString();
     	}
+    }
+    
+    public void writePreferences(){
+    	SharedPreferences prefs = getSharedPreferences("CalcPrefs",MODE_PRIVATE);
+    	SharedPreferences.Editor editor = prefs.edit();
+    	editor.putString("strTemp",strTemp);
+    	editor.putString("strResult",strResult);
+    	editor.putInt("operator",operator);
+    	editor.putString("strDisplay",
+    	((TextView)findViewById(R.id.displayPanel)).getText().toString());
+    	editor.commit();
+    }
+    
+    public void readPreferences(){
+    	SharedPreferences prefs = getSharedPreferences("CalcPrefs",MODE_PRIVATE);
+    	this.strTemp=prefs.getString("strTemp","");
+    	this.strResult=prefs.getString("strResult", "0");
+    	this.operator=prefs.getInt("operator", 0);
+    	((TextView)findViewById(R.id.displayPanel)).setText(
+    			prefs.getString("strDisplay", "0"));
+    	}
+    
+
+    public void onStop(){
+    	super.onStop();
+    	writePreferences();
     }
   /*  
     public void addKeyOnClick(View v){//
